@@ -9,15 +9,11 @@
     <title>Getting Started Extension's Popup</title>
     <style>
       body {
-        body {width:480; height:640;}
+        width:480px
       }
     </style>
 
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy-->
+    <!--script src="jquery-2.1.4.min.js"></script-->
     <script src="angular.min.js"></script>
     <script src="respekt.js"></script>
   </head>
@@ -25,6 +21,16 @@
     <ul>
       <li ng-repeat="category in issue.categories">
         {{category}}
+
+        <ul>
+          <li ng-repeat="item in issue.items[category]">
+            <a href = "http://respekt.cz{{item.url}}">
+              <span>{{item.title}}</span>
+              <span>{{item.author}}</span>
+            </a>
+          </li>
+        </ul>
+
       </li>
     </ul>
   </body>
