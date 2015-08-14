@@ -1,0 +1,32 @@
+<!doctype html>
+<!--
+ This page is shown when the extension button is clicked, because the
+ "browser_action" field in manifest.json contains the "default_popup" key with
+ value "popup.html".
+ -->
+<html ng-csp ng-app="respekt">
+  <head>
+    <title>Getting Started Extension's Popup</title>
+    <style>
+      body {
+        body {width:480; height:640;}
+      }
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy-->
+    <script src="angular.min.js"></script>
+    <script src="respekt.js"></script>
+  </head>
+  <body ng-controller="issueCtrl">
+    <ul>
+      <li ng-repeat="category in issue.categories">
+        {{category}}
+      </li>
+    </ul>
+  </body>
+</html>
+

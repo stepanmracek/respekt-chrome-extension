@@ -1,0 +1,16 @@
+{
+  "manifest_version": 2,
+
+  "name": "Respekt Kindle dowloader",
+  "description": "Dowload web version of Respekt magazine to Kindle device",
+  "version": "1.0",
+
+  "browser_action": {
+    "default_icon": "respekt-19.png",
+    "default_popup": "respekt.html"
+  },
+  "permissions": [
+    "activeTab",
+    "http://www.respekt.cz/"
+  ]
+}
