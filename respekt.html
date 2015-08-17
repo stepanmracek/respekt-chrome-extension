@@ -18,13 +18,15 @@
     <script src="respekt.js"></script>
   </head>
   <body ng-controller="issueCtrl">
+    <a href="#" ng-click="prevIssue()"><<<</a>
+    <h1>Respekt {{currentIssueDate.week}}/{{currentIssueDate.year}}</h1>
     <ul>
       <li ng-repeat="category in issue.categories">
         {{category}}
 
         <ul>
           <li ng-repeat="item in issue.items[category]">
-            <a href = "http://respekt.cz{{item.url}}">
+            <a href="#" ng-click="openUrl(item.url)"> <!--{{item.url}}-->
               <span>{{item.title}}</span>
               <span>{{item.author}}</span>
             </a>

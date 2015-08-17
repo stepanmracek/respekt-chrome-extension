@@ -73,12 +73,25 @@ respektApp.controller('issueCtrl', function($scope, issueDownloader) {
 
     $scope.currentIssueDate = {
         year: 2015,
-        week: 33
+        week: 34
     }
 
-    issueDownloader.getContent($scope.currentIssueDate.year, $scope.currentIssueDate.week, function(data) {
-        $scope.issue = data;
-        $scope.$apply();
-    });
+    getCurrentIssue = function() {
+        issueDownloader.getContent($scope.currentIssueDate.year, $scope.currentIssueDate.week, function(data) {
+            $scope.issue = data;
+            $scope.$apply();
+        });
+    }
+
+    getCurrentIssue();
+
+    $scope.openUrl = function(url) {
+        chrome.tabs.create({'url': "http://respekt.cz" + url});
+    }
+
+    $scope.prevIssue = function() {
+        $scope.currentIssueDate.week -= 1;
+        getCurrentIssue();
+    }
 
 });
