@@ -5,36 +5,48 @@
  value "popup.html".
  -->
 <html ng-csp ng-app="respekt">
-  <head>
-    <title>Getting Started Extension's Popup</title>
-    <style>
-      body {
-        width:480px
-      }
-    </style>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 
+<head>
+    <title>Getting Started Extension's Popup</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <style>
+    body {
+        width: 480px
+    }
+    </style>
     <!--script src="jquery-2.1.4.min.js"></script-->
     <script src="angular.min.js"></script>
     <script src="respekt.js"></script>
-  </head>
-  <body ng-controller="issueCtrl">
-    <a href="#" ng-click="prevIssue()"><<<</a>
-    <h1>Respekt {{currentIssueDate.week}}/{{currentIssueDate.year}}</h1>
-    <ul>
-      <li ng-repeat="category in issue.categories">
-        {{category}}
+</head>
 
-        <ul>
-          <li ng-repeat="item in issue.items[category]">
-            <a href="#" ng-click="openUrl(item.url)"> <!--{{item.url}}-->
-              <span>{{item.title}}</span>
-              <span>{{item.author}}</span>
-            </a>
-          </li>
-        </ul>
+<body ng-controller="issueCtrl">
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-xs-2 text-center">
+                <a class="glyphicon glyphicon-menu-left btn btn-default btn-lg" aria-hidden="true" href="#" ng-click="prevIssue()"></a>
+            </div>
+            <div class="col-xs-8 text-center">
+                <h3>Respekt {{currentIssueDate.week}}/{{currentIssueDate.year}}</h3>
+            </div>
+            <div class="col-xs-2 text-center"></div>
+            <a class="glyphicon glyphicon-menu-right btn btn-default btn-lg" href="#" ng-click="nextIssue()"></a>
+        </div>
+    </div>
+    <div class="container">
+        <div class="text-center">
+            <button class="btn btn-default" ng-show="issue.categories.length > 0" ng-click="download()">Stáhnout celé vydání</button>
+        </div>
+        <div ng-repeat="category in issue.categories">
+            <h4>{{category}}</h4>
+            <div ng-repeat="item in issue.items[category]">
+                <a href="#" ng-click="openUrl(item.url)">
+                    <span>{{item.title}}</span>
+                </a>
+                <small>{{item.author}}</small>
+            </div>
+        </div>
+    </div>
+</body>
 
-      </li>
-    </ul>
-  </body>
 </html>
-

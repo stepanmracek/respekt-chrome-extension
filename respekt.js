@@ -57,13 +57,44 @@ respektApp.factory('issueDownloader', function() {
 
                     callback(resultData);
                 }
+                else {
+                    alert(x.status);
+                    console.log(x);
+                    callback(resultData);
+                }
             };
             x.onerror = function() {
                 alert("Error");
                 console.log(x);
+                callback(resultData);
             }
             x.send();
+        },
+
+        getItem: function(url, dataCallback) {
+            url = "http://www.respekt.cz" + url;
+            var x = new XMLHttpRequest();
+            x.open('GET', url);
+            x.responseType = 'document';
+            x.onload = function() {
+                if (x.status == 200) {
+                    var doc = x.responseXML;
+                    var postcontent = doc.getElementById('postcontent');
+
+                    var paragraph = postcontent.firstElementChild;
+                    console.log(url);
+                    while (paragraph) {
+                        console.log(paragraph.nodeName);
+                        paragraph = paragraph.nextElementSibling;
+                    }
+                }
+            };
+            x.onerror = function() {
+
+            };
+            x.send();
         }
+
     };
 
     return issueDownloader;
@@ -76,7 +107,7 @@ respektApp.controller('issueCtrl', function($scope, issueDownloader) {
         week: 34
     }
 
-    getCurrentIssue = function() {
+    var getCurrentIssue = function() {
         issueDownloader.getContent($scope.currentIssueDate.year, $scope.currentIssueDate.week, function(data) {
             $scope.issue = data;
             $scope.$apply();
@@ -86,12 +117,42 @@ respektApp.controller('issueCtrl', function($scope, issueDownloader) {
     getCurrentIssue();
 
     $scope.openUrl = function(url) {
-        chrome.tabs.create({'url': "http://respekt.cz" + url});
+        chrome.tabs.create({'url': "http://www.respekt.cz" + url});
+    }
+
+    var getIssue = function(shift) {
+        var newWeekNumber = $scope.currentIssueDate.week + shift;
+        var newYear = $scope.currentIssueDate.year;
+        if (newWeekNumber == 0) {
+            newWeekNumber = 52;
+            newYear = newYear - 1;
+        }
+        if (newWeekNumber == 53) {
+            newWeekNumber = 1;
+            newYear = newYear + 1;
+        }
+
+        $scope.currentIssueDate.week = newWeekNumber;
+        $scope.currentIssueDate.year = newYear;
+        getCurrentIssue();
     }
 
     $scope.prevIssue = function() {
-        $scope.currentIssueDate.week -= 1;
-        getCurrentIssue();
+        getIssue(-1);
+    }
+
+    $scope.nextIssue = function() {
+        getIssue(1);
+    }
+
+    $scope.download = function() {
+        $scope.issue.categories.forEach(function(category) {
+            $scope.issue.items[category].forEach(function(item) {
+                console.log(category + " - " + item.title);
+
+                issueDownloader.getItem(item.url);
+            });
+        });
     }
 
 });
